@@ -8,6 +8,8 @@ class UserWalkinRegistrationController extends ActiveController{
 
     public $modelClass= WalkinRegistration::class;
 
+    public $enableCsrfValidation = false;
+
 }
 
 

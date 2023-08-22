@@ -17,13 +17,22 @@ use Yii;
  * @property resource|null $portfolio_url
  * @property string|null $job_roles
  * @property int|null $subscription
+ * @property int $aggregate_percentage
+ * @property string $year_of_passing
+ * @property string $qualification
+ * @property string $stream
+ * @property int $applicant_type
+ * @property int $years_of_experience
+ * @property int $appeared_zeus_test
+ * @property int $college
+ * @property int $technology
  * @property string|null $datecreated
  * @property string|null $datemodified
  *
+ * @property Hallticket[] $halltickets
  * @property Profession[] $professions
  * @property UserEducationDetails $userEducationDetails
  * @property UserLogin[] $userLogins
- * @property WalkinApplicationDetails[] $walkinApplicationDetails
  */
 class WalkinRegistration extends \yii\db\ActiveRecord
 {
@@ -41,9 +50,9 @@ class WalkinRegistration extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['first_name', 'email', 'phone'], 'required'],
-            [['avatar', 'resume', 'portfolio_url', 'job_roles'], 'string'],
-            [['subscription'], 'integer'],
+            [['first_name', 'email', 'phone', 'aggregate_percentage', 'year_of_passing', 'qualification', 'stream', 'applicant_type', 'years_of_experience', 'appeared_zeus_test', 'college', 'technology'], 'required'],
+            [['avatar', 'resume', 'portfolio_url', 'job_roles', 'year_of_passing', 'qualification', 'stream'], 'string'],
+            [['subscription', 'aggregate_percentage', 'applicant_type', 'years_of_experience', 'appeared_zeus_test', 'college', 'technology'], 'integer'],
             [['datecreated', 'datemodified'], 'safe'],
             [['first_name', 'last_name', 'email', 'phone'], 'string', 'max' => 45],
             [['email'], 'unique'],
@@ -67,9 +76,28 @@ class WalkinRegistration extends \yii\db\ActiveRecord
             'portfolio_url' => 'Portfolio Url',
             'job_roles' => 'Job Roles',
             'subscription' => 'Subscription',
+            'aggregate_percentage' => 'Aggregate Percentage',
+            'year_of_passing' => 'Year Of Passing',
+            'qualification' => 'Qualification',
+            'stream' => 'Stream',
+            'applicant_type' => 'Applicant Type',
+            'years_of_experience' => 'Years Of Experience',
+            'appeared_zeus_test' => 'Appeared Zeus Test',
+            'college' => 'College',
+            'technology' => 'Technology',
             'datecreated' => 'Datecreated',
             'datemodified' => 'Datemodified',
         ];
+    }
+
+    /**
+     * Gets query for [[Halltickets]].
+     *
+     * @return \yii\db\ActiveQuery|\common\models\query\HallticketQuery
+     */
+    public function getHalltickets()
+    {
+        return $this->hasMany(Hallticket::class, ['users_u_id' => 'user_id']);
     }
 
     /**
@@ -100,16 +128,6 @@ class WalkinRegistration extends \yii\db\ActiveRecord
     public function getUserLogins()
     {
         return $this->hasMany(UserLogin::class, ['users_u_id' => 'user_id']);
-    }
-
-    /**
-     * Gets query for [[WalkinApplicationDetails]].
-     *
-     * @return \yii\db\ActiveQuery|\common\models\query\WalkinApplicationDetailsQuery
-     */
-    public function getWalkinApplicationDetails()
-    {
-        return $this->hasMany(WalkinApplicationDetails::class, ['users_u_id' => 'user_id']);
     }
 
     /**

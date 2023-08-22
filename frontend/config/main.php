@@ -1,5 +1,7 @@
 <?php
 
+use yii\base\Controller;
+use yii\rest\UrlRule;
 use yii\web\JsonParser;
 
 $params = array_merge(
@@ -47,6 +49,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class'=> UrlRule::class, 'controller' => 'UserWalkinRegistration'],
+                ['class'=> UrlRule::class, 'controller' => 'walkinpost']
             ],
         ],
         
